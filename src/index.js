@@ -10,7 +10,10 @@ let app = express();
 app.server = http.createServer(app);
 
 //Middleware - Intercepts requests before give to handlers and perform operation with them
-
+// parse application / json
+app.use(bodyParser.json({
+    limit: config.bodyLimit //limits the size of the payload
+}));
 //Passport config
 
 //API routes v1
