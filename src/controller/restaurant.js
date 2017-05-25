@@ -11,16 +11,54 @@ export default({config, db}) => {
         restaurant.name = req.body.name;
         restaurant.style = req.body.style;
 
-        console.log("name: " + restaurant.name);
-        console.log("name2: " + req.body.name);
-
-        console.log("style: " + req.body.style);
         restaurant.save(err => {
             if(err) {
                 res.send(err);
             }
 
             res.json({ message: "Restaurant saved successfully" });
+        });
+    });
+
+    api.get('/all', (req, res) => {
+        // .find({}) -> no filters
+        Restaurant.find({}, (err, restaurants) => {
+            if(err) {
+                res.send(err);
+            } else {
+                res.json(restaurants);
+            }
+        });
+    });
+
+    api.get('/:id', (req, res) => {
+        // .find({}) -> no filters
+        Restaurant.findById(req.params.id, (err, restaurant) => {
+            if(err) {
+                res.send(err);
+            } else {
+                res.json(restaurant);
+            }
+        });
+    });
+
+    api.put('/:id', (req, res) => {
+        // .find({}) -> no filters
+        Restaurant.findById(req.params.id, (err, restaurant) => {
+            if(err) {
+                res.send(err);
+            } else {
+                restaurant.name = req.body.name;
+                restaurant.style = req.body.style;
+
+                restaurant.save(err => {
+                    if(err) {
+                        res.send(err);
+                    } else {
+                        res.json({message: "Restaurant updated successfully!"});
+                    }
+                });
+            }
         });
     });
 
