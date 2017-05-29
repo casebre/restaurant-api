@@ -62,5 +62,25 @@ export default({config, db}) => {
         });
     });
 
+    api.delete('/:id', function (req, res) {
+        Restaurant.findById(req.params.id, (err, restaurant) => {
+            if(err) {
+                console.log(err);
+                res.json({ message: "Restaurant ID couldn't be found. "});
+            } else {
+                Restaurant.remove({
+                    _id: req.params.id
+                }, (err, restaurant) => {
+                    if(err) {
+                        console.log(err);
+                        res.json({ message: "Restaurant ID couldn't be deleted. "});
+                    } else {
+                        res.json({ message: "Restaurant deleted successfully!"});
+                    }
+                });
+            }
+        });
+    });
+
     return api;
 }
